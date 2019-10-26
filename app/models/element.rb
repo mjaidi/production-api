@@ -10,7 +10,7 @@ class Element < ApplicationRecord
 
   def child_elements(multiplyer = 1)
     children.map do |join_element|
-      join_multiplyer = multiplyer * join_element.quantity
+      join_multiplyer = join_element.quantity.nil? ? 0 : ( multiplyer * join_element.quantity )
       {child: {info: join_element.child_element, quantity: join_element.quantity, cost: join_element.join_cost.round(2), join_id: join_element.id, multiplyer: join_multiplyer}, grandchildren: (join_element.child_element.child_elements(join_multiplyer) unless join_element.child_element.nil?)}
     end
   end
